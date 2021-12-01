@@ -14,7 +14,7 @@ class OrderController extends Controller
     // Display a listing of the resource.
     public function index()
     {
-        $orders = DB::table('invitations')->orderBy('id','desc')->paginate(10);
+        $orders = DB::table('orders')->orderBy('id','desc')->paginate(10);
         return view('records.order.index', compact('orders'));
     }
 
