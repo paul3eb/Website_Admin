@@ -3,35 +3,54 @@
 namespace App\Http\Controllers\Records;
 use Illuminate\Http\Request;
 use App\Models\Records\NumMemo;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Validator;
 
 class NumMemoController extends Controller
 {
     // Display a listing of the resource.
     public function index()
     {
-        return view('records.nummemo.index', ['num_memos' => NumMemo::paginate(10)]);
+        $num_memos = DB::table('num_memos')->orderBy('id','desc')->paginate(10);
+        return view('records.nummemo.index', compact('num_memos'));
     }
 
     // Show the form for creating a new resource.
-    public function create()
+    public function create(Request $request)
     {
-        return view('records.nummemo.create', ['num_memos' => NumMemo::all()]);
+        if($request->ajax())
+        {
+            $sort_by = $request->get('sortby');
+            $sort_type = $request->get('sorttype');
+            $search = $request->get('search');
+            $search = str_replace(" ", "%", $search);
+            $num_memos = DB::table('num_memos')->where('id', 'like', '%'.$search.'%')
+                                                ->orWhere('title', 'like', '%'.$search.'%')
+                                                ->orderBy($sort_by, $sort_type)
+                                                ->paginate(10);
+            return view('records.nummemo.partials.form', compact('num_memos'));
+        }
     }
 
     // Store a newly created resource in storage.
     public function store(Request $request)
     {
-        $request -> validate([
-            'date' => 'required',
-            'title' => 'required',
-            'file' => 'required'
-        ]);
+        $validator = Validator::make($request->all(),[
+            'date'=>'required',
+            'title'=>'required',
+            'file'=>'required'
+       ]);
 
-        $data=new NumMemo();
+        if($validator->fails())
+        {
+            return response()->json(['status' => 0,'error'=>$validator->errors()->toArray()]);
+        }
+        else
+        {
+            $data = new NumMemo;
 
-        // Save file to the storage.
         if($request->hasfile('file'))
         {
             $file = $request->file('file');
@@ -43,10 +62,11 @@ class NumMemoController extends Controller
         }
         
         // Other fields save to the storage.
-        $data->date=$request->date;
-        $data->title= $request->title;
+        $data->date=$request->input('date');
+        $data->title= $request->input('title');
         $data->save();
-        return redirect(route('dashboard.memo'))->with('success', 'You have created the memorandum');
+        return response()->json(['status' =>1]);
+        }
     }
 
     // Display the specified resource.
@@ -57,45 +77,44 @@ class NumMemoController extends Controller
     }
 
     // Show the form for editing the specified resource.
-    public function edit($id)
+    public function edit(Request $request)
     {
-        return view('records.nummemo.edit',['num_memo' => NumMemo::find($id)]);
+        $id = $request->id;
+		$data = NumMemo::find($id);
+		return response()->json($data);
     }
 
     // Update the specified resource in storage.
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        $request -> validate([
-            'date' => 'required',
-            'title' => 'required',
-            'file' => 'required'
-        ]);
-
-        $data = NumMemo::findOrFail($id);
         // Save file to the storage.
-        if($request->hasfile('file'))
-        {
-            $destination = 'records/nummemo/'.$data->file;
-            if(File::exists($destination))
-            {
-            File::delete($destination);
-            }
-            $file = $request->file('file');
-            $extention = $file->getClientOriginalExtension();
-            $filename = $request->title.'.'.$extention;
-            $file->move('records/nummemo/', $filename);
-            $data->file = $filename;
-        }
-        // Other fields save to the storage.
-        $data->date=$request->date;
-        $data->title= $request->title;
-        $data->update();
-        return redirect(route('dashboard.memo'))->with('success', 'You have Edited the memorandum');
+       $order = NumMemo::findOrfail($request->id);
+       if($request->hasfile('edit_file'))
+       {
+           $destination = 'records/nummemo/'.$order->file;
+           if(File::exists($destination))
+           {
+           File::delete($destination);
+           }
+           $file = $request->file('edit_file');
+           $extention = $file->getClientOriginalExtension();
+           $filename = $request->edit_title.'.'.$extention;
+           $file->move('records/nummemo/', $filename);
+           $order->file = $filename;
+       }
+
+       $order->date = $request->edit_date;
+       $order->title = $request->edit_title;
+       $order->update();
+       return response()->json([
+           'status' => 1,
+       ]);
     }
 
     // Remove the specified resource from storage.
-    public function destroy($id)
+    public function destroy(Request $request)
     {
+        $id = $request->id;
         $data = NumMemo::find($id); 
         $destination = 'records/nummemo/'.$data->file; 
         if(File::exists($destination))
@@ -103,7 +122,6 @@ class NumMemoController extends Controller
             File::delete($destination);
         }
         $data->delete();
-        return redirect(route('dashboard.memo'))->with('success', 'You have Deleted the memorandum');
     }
 
     // Download the specified date from the storage.
