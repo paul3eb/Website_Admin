@@ -92,7 +92,7 @@ class OrderController extends Controller
        $order = Order::findOrfail($request->id);
        if($request->hasfile('edit_file'))
        {
-           $destination = 'records/invitation/'.$order->file;
+           $destination = 'records/order/'.$order->file;
            if(File::exists($destination))
            {
            File::delete($destination);
