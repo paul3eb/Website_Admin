@@ -27,7 +27,7 @@ class ProceedController extends Controller
             $sort_type = $request->get('sorttype');
             $search = $request->get('search');
             $search = str_replace(" ", "%", $search);
-            $proceeds = DB::table('proceeds')->where('id', 'like', '%'.$search.'%')
+            $proceeds = DB::table('proceeds')->where('date', 'like', '%'.$search.'%')
                                                 ->orWhere('title', 'like', '%'.$search.'%')
                                                 ->orderBy($sort_by, $sort_type)
                                                 ->paginate(10);

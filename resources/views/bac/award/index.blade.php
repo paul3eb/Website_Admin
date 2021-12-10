@@ -139,12 +139,13 @@
                       <table class="table table-sm " id="table">
                           <thead>
                               <tr>
-                                <th width="6%" class="sorting" data-sorting_type="desc" data-column_name="id" style="cursor:pointer">ID 
+                                <th  hidden>ID
+                                </th>
+                                <th  class="sorting" data-sorting_type="desc" data-column_name="id" style="cursor:pointer">Date Published
                                   <span id="id_icon" class="float-right ">
                                     <i class="bi bi-arrow-down-up text-muted"></i>
                                   </span>
                                 </th>
-                                <th>Date Posted</th>
                                 <th class="sorting" data-sorting_type="desc" style="cursor:pointer"data-column_name="title">Name of Project 
                                   <span id="title_icon"class="float-right ">
                                     <i class="bi bi-arrow-down-up text-muted"></i>

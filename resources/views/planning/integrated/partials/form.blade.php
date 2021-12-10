@@ -1,43 +1,23 @@
 
+@foreach ($integrateds as $data)
+<tr>
+    {{-- <td>{{ $data->id }}</td> --}}
+    <td>{{ $data->name_school }}</td>
+    <td>{{ $data->address }}</td>
+    <td>{{ $data->email }}</td>
+    <td>{{ $data->school_head }}</td>
+    <td><img src="{{ asset('planning/integrated/'.$data->file) }}" width="75px" height="75px" class="img-fluid img-thumbnail" alt="Image"> </td>
+    <td class="project-actions text-left">
+        {{-- <a class="btn btn-primary btn-sm "   href="{{ route('proceed.show', $data->id) }}"><i class="fas fa-folder"></i> View </a> --}}
+        <a class="editIcon btn btn-info btn-sm " id="{{ $data->id }}" data-bs-toggle="modal" data-bs-target="#editIntegratedModal"><i class="fas fa-pencil-alt"></i> Edit </a>
+        <a class="btn btn-sm btn-danger deleteIcon" id="{{ $data->id }}" ><i class="fas fa-trash"></i> Delete </a></td>            
+</tr>   
+@endforeach
+<tr class="invitation_page_link">
+<td colspan="6" align="right">{{ $integrateds->links() }}</td>
+</tr>
 
-<div class="col-md-14">
-  <div class="card card-outline card-primary">
-    <br />
-    <p class="login-box-msg">Add a new Integrated School</p>
 
-    <form>
-      <div class="card-body">
-        <div class="form-group">
-          <label for="exampleInputEmail1">Name of the School</label>
-          <input type="date" class="form-control">
-        </div>
-        <div class="form-group">
-          <label for="exampleInputPassword1">Address of the School</label>
-          <input type="text" class="form-control" placeholder="Address of the School">
-        </div>
-        <div class="form-group">
-          <label for="exampleInputPassword1">Email Address</label>
-          <input type="email" class="form-control" placeholder="Email Address">
-        </div>
-        <div class="form-group">
-          <label for="exampleInputFile">File input</label>
-          <div class="input-group">
-            <div class="custom-file">
-              <input type="file" class="custom-file-input" id="exampleInputFile">
-              <label class="custom-file-label" for="exampleInputFile">Choose file</label>
-            </div>
-            <div class="input-group-append">
-              <span class="input-group-text">Upload</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="card-footer">
-        <button type="submit" class="btn btn-primary">Submit</button>
-      </div>
-    </form>
-  </div>
-</div>
 
 
 

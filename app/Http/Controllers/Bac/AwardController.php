@@ -27,7 +27,7 @@ class AwardController extends Controller
             $sort_type = $request->get('sorttype');
             $search = $request->get('search');
             $search = str_replace(" ", "%", $search);
-            $awards = DB::table('awards')->where('id', 'like', '%'.$search.'%')
+            $awards = DB::table('awards')->where('date', 'like', '%'.$search.'%')
                                                 ->orWhere('title', 'like', '%'.$search.'%')
                                                 ->orderBy($sort_by, $sort_type)
                                                 ->paginate(10);
@@ -86,7 +86,7 @@ class AwardController extends Controller
     }
 
     // Update the specified resource in storage.
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         // Save file to the storage.
         $awards = Award::findOrfail($request->id);

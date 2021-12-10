@@ -27,7 +27,7 @@ class InvitationController extends Controller
             $sort_type = $request->get('sorttype');
             $search = $request->get('search');
             $search = str_replace(" ", "%", $search);
-            $invitations = DB::table('invitations')->where('id', 'like', '%'.$search.'%')
+            $invitations = DB::table('invitations')->where('date', 'like', '%'.$search.'%')
                                                 ->orWhere('title', 'like', '%'.$search.'%')
                                                 ->orderBy($sort_by, $sort_type)
                                                 ->paginate(10);
