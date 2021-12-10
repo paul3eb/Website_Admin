@@ -27,7 +27,7 @@ class TimelineController extends Controller
             $sort_type = $request->get('sorttype');
             $search = $request->get('search');
             $search = str_replace(" ", "%", $search);
-            $timelines = DB::table('timelines')->where('id', 'like', '%'.$search.'%')
+            $timelines = DB::table('timelines')->where('date', 'like', '%'.$search.'%')
                                                 ->orWhere('title', 'like', '%'.$search.'%')
                                                 ->orderBy($sort_by, $sort_type)
                                                 ->paginate(10);
