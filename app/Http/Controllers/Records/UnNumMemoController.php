@@ -27,7 +27,7 @@ class UnNumMemoController extends Controller
             $sort_type = $request->get('sorttype');
             $search = $request->get('search');
             $search = str_replace(" ", "%", $search);
-            $unnum_memos = DB::table('unnum_memos')->where('id', 'like', '%'.$search.'%')
+            $unnum_memos = DB::table('unnum_memos')->where('date', 'like', '%'.$search.'%')
                                                 ->orWhere('title', 'like', '%'.$search.'%')
                                                 ->orderBy($sort_by, $sort_type)
                                                 ->paginate(10);

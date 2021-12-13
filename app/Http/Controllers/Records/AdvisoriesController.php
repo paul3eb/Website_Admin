@@ -26,7 +26,7 @@ class AdvisoriesController extends Controller
             $sort_type = $request->get('sorttype');
             $search = $request->get('search');
             $search = str_replace(" ", "%", $search);
-            $advisories = DB::table('advisories')->where('id', 'like', '%'.$search.'%')
+            $advisories = DB::table('advisories')->where('date', 'like', '%'.$search.'%')
                                                 ->orWhere('title', 'like', '%'.$search.'%')
                                                 ->orderBy($sort_by, $sort_type)
                                                 ->paginate(10);
