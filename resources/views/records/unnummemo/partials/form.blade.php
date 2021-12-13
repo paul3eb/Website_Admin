@@ -1,6 +1,5 @@
 @foreach ($unnum_memos as $data)
 <tr>
-    <td>{{ $data->id }}</td>
     <td>{{ $data->date }}</td>
     <td>{{ $data->title }}</td>
     <td>{{ $data->file }}</td>

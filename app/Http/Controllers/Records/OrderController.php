@@ -27,7 +27,7 @@ class OrderController extends Controller
             $sort_type = $request->get('sorttype');
             $search = $request->get('search');
             $search = str_replace(" ", "%", $search);
-            $orders = DB::table('orders')->where('id', 'like', '%'.$search.'%')
+            $orders = DB::table('orders')->where('date', 'like', '%'.$search.'%')
                                                 ->orWhere('title', 'like', '%'.$search.'%')
                                                 ->orderBy($sort_by, $sort_type)
                                                 ->paginate(10);
