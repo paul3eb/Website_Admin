@@ -33,20 +33,5 @@ class DashboardController extends Controller
         }
     }
     
-    public function elementary()
-    {
-        return view('planning.elementary.index');
-    }
-    public function secondary()
-    {
-        return view('planning.secondary.index');
-    }
-    public function integrated()
-    {
-        return view('planning.integrated.index');
-    }
-    public function private()
-    {
-        return view('planning.private.index');
-    }
+    
 }

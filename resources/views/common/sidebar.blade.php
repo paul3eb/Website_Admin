@@ -37,17 +37,8 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-               @if (Auth::user()->hasRole('admin'))
-                    <li class="nav-item">
-                      <a href="{{ route('dashboard.users') }}" class="nav-link">
-                      <i class="nav-icon far fa-user-circle"></i>
-                      <p>
-                          Users
-                      </p>
-                      </a>
-                  </li>
-                  @endif
                   @if (Auth::user()->hasRole('record') || Auth::user()->hasRole('admin'))
+                <li class="nav-header"><h5>Record Section</h5></li>
                 <li class="nav-item ">
                   <a href="#" class="nav-link">
                     <i class="nav-icon far fa-sticky-note"></i>
@@ -89,6 +80,7 @@
                 </li>
                @endif
                @if (Auth::user()->hasRole('bac') || Auth::user()->hasRole('admin'))
+          <li class="nav-header"><h5>BAC Section</h5></li>
           <li class="nav-item">
             <a href="{{ route('dashboard.invitation') }}" class="nav-link">
               <i class="nav-icon fab fa-invision"></i>
@@ -131,6 +123,7 @@
           </li>
           @endif
           @if (Auth::user()->hasRole('planning') || Auth::user()->hasRole('admin'))
+          <li class="nav-header"><h5>Planning Section</h1></li>
           <li class="nav-item">
             <a href="{{ route('dashboard.elementary') }}" class="nav-link">
               <i class="nav-icon fas fa-school"></i> 
@@ -164,6 +157,17 @@
             </a>
           </li>
           @endif
+          @if (Auth::user()->hasRole('admin'))
+          <li class="nav-header"><h5>Others</h1></li>
+          <li class="nav-item">
+            <a href="{{ route('dashboard.users') }}" class="nav-link">
+            <i class="nav-icon far fa-user-circle"></i>
+            <p>
+                Users
+            </p>
+            </a>
+        </li>
+        @endif
         </ul>
       </nav>
       <!-- /.sidebar-menu -->
